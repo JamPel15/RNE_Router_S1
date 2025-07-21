@@ -1,99 +1,161 @@
-import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useState } from 'react';
+import {
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
-const LoginScreen: React.FC = () => {
+export default function Index() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleLogin = () => {
-    // Add your login logic here
-    console.log('Logging in with:', email, password);
+  const handleSubmit = () => {
+    if (name && email) {
+      setSubmitted(true);
+    } else {
+      alert('Please fill out all fields.');
+    }
+  };
+
+  const handleClear = () => {
+    setName('');
+    setEmail('');
+    setSubmitted(false);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign in</Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.title}>Login Form</Text>
 
-      <TextInput
-        placeholder="Email or Phone Number"
-        value={email}
-        onChangeText={setEmail}
-        style={styles.input}
-        keyboardType="email-address"
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          value={name}
+          onChangeText={(text: string) => setName(text)}
+        />
 
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        style={styles.input}
-        secureTextEntry
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={(text: string) => setEmail(text)}
+          keyboardType="email-address"
+        />
 
-     <Pressable style={[styles.button, { backgroundColor: '#09838e' }]} onPress={handleLogin}>
-       <Text style={styles.buttonText}>Login</Text>
-     </Pressable>
-        <Text style={styles.orText}>OR</Text>
-      
-      <Pressable style={[styles.button, { backgroundColor: '#09838e' }]} onPress={handleLogin}>
-      <Text style={styles.buttonText}>Login with Facebook</Text>
-         </Pressable>
+        <View style={styles.buttonContainer}>
+          <Pressable style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttonText}>Submit</Text>
+          </Pressable>
 
-    </View>
+          <Text style={styles.orText}>or</Text>
+
+
+          <Pressable style={styles.button2} onPress={handleSubmit}>
+            <Text style={styles.buttonTextfb}>Login with facebook</Text>
+          </Pressable>
+
+          <Pressable style={[styles.button, styles.clearButton]} onPress={handleClear}>
+            <Text style={styles.buttonText1}>Clear</Text>
+          </Pressable>
+        </View>
+
+        {submitted && (
+          <View style={styles.output}>
+            <Text style={styles.outputTitle}>Submitted Information:</Text>
+            <Text>Username: {name}</Text>
+            <Text>Email: {email}</Text>
+          </View>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
-};
-
-export default LoginScreen;
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  content: {
     padding: 20,
-    backgroundColor: '#fff',
+    justifyContent: 'center',
   },
   title: {
-  fontSize: 32,
-  color:'#000',
-  marginBottom: 24,
-  fontWeight: 'bold',
-  textAlign: 'left',     
-  alignSelf: 'flex-start', 
-  marginLeft: 10,        
-  marginTop: 15,          
-},
-  input: {
-    height: 48,
-    borderColor: '#ccc',
-    borderWidth: 3,
-    borderRadius: 25,
-    marginTop: 35, 
-    marginBottom: 5,
-    marginLeft:20,
-    marginRight:20,
-    paddingHorizontal: 20,
-  },
- 
-  button: {  
-  marginTop: 35,  
-  paddingVertical: 10,
-  paddingHorizontal: 20,
-  borderRadius: 15,
-  width: 300,
-  alignItems: 'center',
-  alignSelf: 'center', 
-}, 
-  buttonText: { 
-    color: '#fff',
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginBottom: 20,
     textAlign: 'center',
+    paddingBottom: 30,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 15,
+  },
+  buttonContainer: {
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#09838e', 
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 10,
+    alignItems: 'center',
+    width: '100%',
+  },
+  button2: {
+    backgroundColor: '#3b5998', // Facebook blue
+    padding: 15,
+    borderRadius: 8,
+    marginBottom: 10,
+    alignItems: 'center',
+    width: '100%',
+  },
+  clearButton: {
+    borderColor: '#ccc',
+    borderWidth: 1,
+    backgroundColor: '#fff',
+  },
+  buttonText: {
+    color: '#fff',
     fontSize: 16,
+    fontWeight: 'bold',
+  },
+  buttonTextfb: {
+    color: '#fff',
+    fontSize: 10,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    fontFamily: 'Arial',
+    textAlign: 'center',
+  },
+  buttonText1: {
+    color: '#696969',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  output: {
+    backgroundColor: '#f1f1f1',
+    padding: 15,
+    borderRadius: 8,
+  },
+  outputTitle: {
+    fontWeight: 'bold',
+    marginBottom: 5,
   },
   orText: {
-  textAlign: 'center',
-  fontSize: 20, 
-  marginTop: 30, 
-  marginBottom: 5,
-},
-
-
-
+    fontSize: 16,
+    color: '#696969',
+    padding: 10,
+    textAlign: 'center',
+    paddingBottom: 20,
+  },
 });

@@ -7,13 +7,13 @@ export default function RootLayout() {
       }
     }}>
       <Stack.Screen name="index"options={{
-        headerTitle:"",
+        headerTitle:" ",
       }}/>
       <Stack.Screen name="login" options={{
-        headerTitle:" "
+        headerTitle:" ",
       }}/>
       <Stack.Screen name="signup" options={{
-        headerTitle:" "
+        headerTitle:" ",
       }}/>
     </Stack>
   );
